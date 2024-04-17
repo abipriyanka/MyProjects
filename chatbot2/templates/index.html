@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D'Bot</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Freight+Display+Pro:wght@400;700&display=swap">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url("static/trevor-vannoy-UNzohJgG8W0-unsplash.jpg") center/cover fixed;
+            font-family: 'Freight Display Pro', Arial, sans-serif;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            font-size: 18px;
+            border: none;
+            border-bottom: 2px solid #ffffff;
+            background: transparent;
+            color: #ffffff;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-bottom: 2px solid #00bcd4;
+        }
+
+        #response {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #00bcd4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0097a7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hi, I'm D'Bot.</h1>
+        <p>I'm here to answer your Data Science related queries. Data Science is a very vast field, and I'm here to assist you with what I know.</p>
+        <label for="user_input">Ask me anything:</label>
+        <input type="text" id="user_input" name="user_input">
+        <button id="submit_button">Ask</button>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        document.getElementById('submit_button').addEventListener('click', function () {
+            var userInput = document.getElementById('user_input').value;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        document.getElementById('response').innerHTML = xhr.responseText;
+                    } else {
+                        console.error('Request failed with status:', xhr.status);
+                    }
+                }
+            };
+            xhr.open('POST', '/get_response', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('user_input=' + encodeURIComponent(userInput));
+        });
+    </script>
+    
+</body>
+</html>
